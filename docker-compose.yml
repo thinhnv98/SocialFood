@@ -1,0 +1,37 @@
+version: '3.7'
+
+services:
+  database:
+    container_name: postgres-server
+    restart: always
+    image: postgres:latest
+    volumes:
+      - ./initilization/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_DB=socialfood
+    networks:
+      - social-food-management-network
+
+  server:
+    container_name: golang-server
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on:
+      - database
+    networks:
+      - social-food-management-network
+
+volumes:
+  dbinit:
+
+networks:
+  social-food-management-network:
+    driver: bridge

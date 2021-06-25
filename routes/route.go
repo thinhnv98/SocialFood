@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"SocialFood/services"
 	"database/sql"
 
 	"SocialFood/controllers"
@@ -14,11 +15,16 @@ type Route struct {
 }
 
 func (_self Route) Register() {
-	// Common Controller
-	common := controllers.Common{}
+	// UserController Controller
+	common := controllers.UserController{
+		IUserService: services.UserService{
+			Db: _self.Db,
+		},
+	}
 	commonRoutes := _self.Server.Group("/api")
 	{
-		commonRoutes.GET("/ping", common.Ping)
+		commonRoutes.POST("/login", common.Login)
+		commonRoutes.POST("/register", common.Register)
 	}
 
 	// Add More Controller

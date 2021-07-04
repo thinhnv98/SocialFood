@@ -21,8 +21,14 @@ func (_self Database) InitDatabase() *sql.DB {
 		dbname   = os.Getenv("POSTGRES_DBNAME")
 	)
 
-	psqlInfo := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
-
+	//psqlInfo := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s sslmode=disable", host, port, user, password, dbname)
+	psqlInfo := fmt.Sprintf("postgres://%v:%v@%v:%v/%v?sslmode=disable",
+		user,
+		password,
+		host,
+		port,
+		dbname)
+	fmt.Println(psqlInfo)
 	// Open db connection
 	db, err := sql.Open(driver, psqlInfo)
 	if err != nil {

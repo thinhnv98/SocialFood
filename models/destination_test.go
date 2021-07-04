@@ -21,24 +21,24 @@ var (
 	_ = queries.Equal
 )
 
-func testAccounts(t *testing.T) {
+func testDestinations(t *testing.T) {
 	t.Parallel()
 
-	query := Accounts()
+	query := Destinations()
 
 	if query.Query == nil {
 		t.Error("expected a query, got nothing")
 	}
 }
 
-func testAccountsDelete(t *testing.T) {
+func testDestinationsDelete(t *testing.T) {
 	t.Parallel()
 
 	seed := randomize.NewSeed()
 	var err error
-	o := &Account{}
-	if err = randomize.Struct(seed, o, accountDBTypes, true, accountColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize Account struct: %s", err)
+	o := &Destination{}
+	if err = randomize.Struct(seed, o, destinationDBTypes, true, destinationColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Destination struct: %s", err)
 	}
 
 	ctx := context.Background()
@@ -54,7 +54,7 @@ func testAccountsDelete(t *testing.T) {
 		t.Error("should only have deleted one row, but affected:", rowsAff)
 	}
 
-	count, err := Accounts().Count(ctx, tx)
+	count, err := Destinations().Count(ctx, tx)
 	if err != nil {
 		t.Error(err)
 	}
@@ -64,14 +64,14 @@ func testAccountsDelete(t *testing.T) {
 	}
 }
 
-func testAccountsQueryDeleteAll(t *testing.T) {
+func testDestinationsQueryDeleteAll(t *testing.T) {
 	t.Parallel()
 
 	seed := randomize.NewSeed()
 	var err error
-	o := &Account{}
-	if err = randomize.Struct(seed, o, accountDBTypes, true, accountColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize Account struct: %s", err)
+	o := &Destination{}
+	if err = randomize.Struct(seed, o, destinationDBTypes, true, destinationColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Destination struct: %s", err)
 	}
 
 	ctx := context.Background()
@@ -81,13 +81,13 @@ func testAccountsQueryDeleteAll(t *testing.T) {
 		t.Error(err)
 	}
 
-	if rowsAff, err := Accounts().DeleteAll(ctx, tx); err != nil {
+	if rowsAff, err := Destinations().DeleteAll(ctx, tx); err != nil {
 		t.Error(err)
 	} else if rowsAff != 1 {
 		t.Error("should only have deleted one row, but affected:", rowsAff)
 	}
 
-	count, err := Accounts().Count(ctx, tx)
+	count, err := Destinations().Count(ctx, tx)
 	if err != nil {
 		t.Error(err)
 	}
@@ -97,14 +97,14 @@ func testAccountsQueryDeleteAll(t *testing.T) {
 	}
 }
 
-func testAccountsSliceDeleteAll(t *testing.T) {
+func testDestinationsSliceDeleteAll(t *testing.T) {
 	t.Parallel()
 
 	seed := randomize.NewSeed()
 	var err error
-	o := &Account{}
-	if err = randomize.Struct(seed, o, accountDBTypes, true, accountColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize Account struct: %s", err)
+	o := &Destination{}
+	if err = randomize.Struct(seed, o, destinationDBTypes, true, destinationColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Destination struct: %s", err)
 	}
 
 	ctx := context.Background()
@@ -114,7 +114,7 @@ func testAccountsSliceDeleteAll(t *testing.T) {
 		t.Error(err)
 	}
 
-	slice := AccountSlice{o}
+	slice := DestinationSlice{o}
 
 	if rowsAff, err := slice.DeleteAll(ctx, tx); err != nil {
 		t.Error(err)
@@ -122,7 +122,7 @@ func testAccountsSliceDeleteAll(t *testing.T) {
 		t.Error("should only have deleted one row, but affected:", rowsAff)
 	}
 
-	count, err := Accounts().Count(ctx, tx)
+	count, err := Destinations().Count(ctx, tx)
 	if err != nil {
 		t.Error(err)
 	}
@@ -132,14 +132,14 @@ func testAccountsSliceDeleteAll(t *testing.T) {
 	}
 }
 
-func testAccountsExists(t *testing.T) {
+func testDestinationsExists(t *testing.T) {
 	t.Parallel()
 
 	seed := randomize.NewSeed()
 	var err error
-	o := &Account{}
-	if err = randomize.Struct(seed, o, accountDBTypes, true, accountColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize Account struct: %s", err)
+	o := &Destination{}
+	if err = randomize.Struct(seed, o, destinationDBTypes, true, destinationColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Destination struct: %s", err)
 	}
 
 	ctx := context.Background()
@@ -149,23 +149,23 @@ func testAccountsExists(t *testing.T) {
 		t.Error(err)
 	}
 
-	e, err := AccountExists(ctx, tx, o.ID)
+	e, err := DestinationExists(ctx, tx, o.ID)
 	if err != nil {
-		t.Errorf("Unable to check if Account exists: %s", err)
+		t.Errorf("Unable to check if Destination exists: %s", err)
 	}
 	if !e {
-		t.Errorf("Expected AccountExists to return true, but got false.")
+		t.Errorf("Expected DestinationExists to return true, but got false.")
 	}
 }
 
-func testAccountsFind(t *testing.T) {
+func testDestinationsFind(t *testing.T) {
 	t.Parallel()
 
 	seed := randomize.NewSeed()
 	var err error
-	o := &Account{}
-	if err = randomize.Struct(seed, o, accountDBTypes, true, accountColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize Account struct: %s", err)
+	o := &Destination{}
+	if err = randomize.Struct(seed, o, destinationDBTypes, true, destinationColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Destination struct: %s", err)
 	}
 
 	ctx := context.Background()
@@ -175,24 +175,24 @@ func testAccountsFind(t *testing.T) {
 		t.Error(err)
 	}
 
-	accountFound, err := FindAccount(ctx, tx, o.ID)
+	destinationFound, err := FindDestination(ctx, tx, o.ID)
 	if err != nil {
 		t.Error(err)
 	}
 
-	if accountFound == nil {
+	if destinationFound == nil {
 		t.Error("want a record, got nil")
 	}
 }
 
-func testAccountsBind(t *testing.T) {
+func testDestinationsBind(t *testing.T) {
 	t.Parallel()
 
 	seed := randomize.NewSeed()
 	var err error
-	o := &Account{}
-	if err = randomize.Struct(seed, o, accountDBTypes, true, accountColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize Account struct: %s", err)
+	o := &Destination{}
+	if err = randomize.Struct(seed, o, destinationDBTypes, true, destinationColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Destination struct: %s", err)
 	}
 
 	ctx := context.Background()
@@ -202,19 +202,19 @@ func testAccountsBind(t *testing.T) {
 		t.Error(err)
 	}
 
-	if err = Accounts().Bind(ctx, tx, o); err != nil {
+	if err = Destinations().Bind(ctx, tx, o); err != nil {
 		t.Error(err)
 	}
 }
 
-func testAccountsOne(t *testing.T) {
+func testDestinationsOne(t *testing.T) {
 	t.Parallel()
 
 	seed := randomize.NewSeed()
 	var err error
-	o := &Account{}
-	if err = randomize.Struct(seed, o, accountDBTypes, true, accountColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize Account struct: %s", err)
+	o := &Destination{}
+	if err = randomize.Struct(seed, o, destinationDBTypes, true, destinationColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Destination struct: %s", err)
 	}
 
 	ctx := context.Background()
@@ -224,38 +224,38 @@ func testAccountsOne(t *testing.T) {
 		t.Error(err)
 	}
 
-	if x, err := Accounts().One(ctx, tx); err != nil {
+	if x, err := Destinations().One(ctx, tx); err != nil {
 		t.Error(err)
 	} else if x == nil {
 		t.Error("expected to get a non nil record")
 	}
 }
 
-func testAccountsAll(t *testing.T) {
+func testDestinationsAll(t *testing.T) {
 	t.Parallel()
 
 	seed := randomize.NewSeed()
 	var err error
-	accountOne := &Account{}
-	accountTwo := &Account{}
-	if err = randomize.Struct(seed, accountOne, accountDBTypes, false, accountColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize Account struct: %s", err)
+	destinationOne := &Destination{}
+	destinationTwo := &Destination{}
+	if err = randomize.Struct(seed, destinationOne, destinationDBTypes, false, destinationColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Destination struct: %s", err)
 	}
-	if err = randomize.Struct(seed, accountTwo, accountDBTypes, false, accountColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize Account struct: %s", err)
+	if err = randomize.Struct(seed, destinationTwo, destinationDBTypes, false, destinationColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Destination struct: %s", err)
 	}
 
 	ctx := context.Background()
 	tx := MustTx(boil.BeginTx(ctx, nil))
 	defer func() { _ = tx.Rollback() }()
-	if err = accountOne.Insert(ctx, tx, boil.Infer()); err != nil {
+	if err = destinationOne.Insert(ctx, tx, boil.Infer()); err != nil {
 		t.Error(err)
 	}
-	if err = accountTwo.Insert(ctx, tx, boil.Infer()); err != nil {
+	if err = destinationTwo.Insert(ctx, tx, boil.Infer()); err != nil {
 		t.Error(err)
 	}
 
-	slice, err := Accounts().All(ctx, tx)
+	slice, err := Destinations().All(ctx, tx)
 	if err != nil {
 		t.Error(err)
 	}
@@ -265,31 +265,31 @@ func testAccountsAll(t *testing.T) {
 	}
 }
 
-func testAccountsCount(t *testing.T) {
+func testDestinationsCount(t *testing.T) {
 	t.Parallel()
 
 	var err error
 	seed := randomize.NewSeed()
-	accountOne := &Account{}
-	accountTwo := &Account{}
-	if err = randomize.Struct(seed, accountOne, accountDBTypes, false, accountColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize Account struct: %s", err)
+	destinationOne := &Destination{}
+	destinationTwo := &Destination{}
+	if err = randomize.Struct(seed, destinationOne, destinationDBTypes, false, destinationColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Destination struct: %s", err)
 	}
-	if err = randomize.Struct(seed, accountTwo, accountDBTypes, false, accountColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize Account struct: %s", err)
+	if err = randomize.Struct(seed, destinationTwo, destinationDBTypes, false, destinationColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Destination struct: %s", err)
 	}
 
 	ctx := context.Background()
 	tx := MustTx(boil.BeginTx(ctx, nil))
 	defer func() { _ = tx.Rollback() }()
-	if err = accountOne.Insert(ctx, tx, boil.Infer()); err != nil {
+	if err = destinationOne.Insert(ctx, tx, boil.Infer()); err != nil {
 		t.Error(err)
 	}
-	if err = accountTwo.Insert(ctx, tx, boil.Infer()); err != nil {
+	if err = destinationTwo.Insert(ctx, tx, boil.Infer()); err != nil {
 		t.Error(err)
 	}
 
-	count, err := Accounts().Count(ctx, tx)
+	count, err := Destinations().Count(ctx, tx)
 	if err != nil {
 		t.Error(err)
 	}
@@ -299,155 +299,155 @@ func testAccountsCount(t *testing.T) {
 	}
 }
 
-func accountBeforeInsertHook(ctx context.Context, e boil.ContextExecutor, o *Account) error {
-	*o = Account{}
+func destinationBeforeInsertHook(ctx context.Context, e boil.ContextExecutor, o *Destination) error {
+	*o = Destination{}
 	return nil
 }
 
-func accountAfterInsertHook(ctx context.Context, e boil.ContextExecutor, o *Account) error {
-	*o = Account{}
+func destinationAfterInsertHook(ctx context.Context, e boil.ContextExecutor, o *Destination) error {
+	*o = Destination{}
 	return nil
 }
 
-func accountAfterSelectHook(ctx context.Context, e boil.ContextExecutor, o *Account) error {
-	*o = Account{}
+func destinationAfterSelectHook(ctx context.Context, e boil.ContextExecutor, o *Destination) error {
+	*o = Destination{}
 	return nil
 }
 
-func accountBeforeUpdateHook(ctx context.Context, e boil.ContextExecutor, o *Account) error {
-	*o = Account{}
+func destinationBeforeUpdateHook(ctx context.Context, e boil.ContextExecutor, o *Destination) error {
+	*o = Destination{}
 	return nil
 }
 
-func accountAfterUpdateHook(ctx context.Context, e boil.ContextExecutor, o *Account) error {
-	*o = Account{}
+func destinationAfterUpdateHook(ctx context.Context, e boil.ContextExecutor, o *Destination) error {
+	*o = Destination{}
 	return nil
 }
 
-func accountBeforeDeleteHook(ctx context.Context, e boil.ContextExecutor, o *Account) error {
-	*o = Account{}
+func destinationBeforeDeleteHook(ctx context.Context, e boil.ContextExecutor, o *Destination) error {
+	*o = Destination{}
 	return nil
 }
 
-func accountAfterDeleteHook(ctx context.Context, e boil.ContextExecutor, o *Account) error {
-	*o = Account{}
+func destinationAfterDeleteHook(ctx context.Context, e boil.ContextExecutor, o *Destination) error {
+	*o = Destination{}
 	return nil
 }
 
-func accountBeforeUpsertHook(ctx context.Context, e boil.ContextExecutor, o *Account) error {
-	*o = Account{}
+func destinationBeforeUpsertHook(ctx context.Context, e boil.ContextExecutor, o *Destination) error {
+	*o = Destination{}
 	return nil
 }
 
-func accountAfterUpsertHook(ctx context.Context, e boil.ContextExecutor, o *Account) error {
-	*o = Account{}
+func destinationAfterUpsertHook(ctx context.Context, e boil.ContextExecutor, o *Destination) error {
+	*o = Destination{}
 	return nil
 }
 
-func testAccountsHooks(t *testing.T) {
+func testDestinationsHooks(t *testing.T) {
 	t.Parallel()
 
 	var err error
 
 	ctx := context.Background()
-	empty := &Account{}
-	o := &Account{}
+	empty := &Destination{}
+	o := &Destination{}
 
 	seed := randomize.NewSeed()
-	if err = randomize.Struct(seed, o, accountDBTypes, false); err != nil {
-		t.Errorf("Unable to randomize Account object: %s", err)
+	if err = randomize.Struct(seed, o, destinationDBTypes, false); err != nil {
+		t.Errorf("Unable to randomize Destination object: %s", err)
 	}
 
-	AddAccountHook(boil.BeforeInsertHook, accountBeforeInsertHook)
+	AddDestinationHook(boil.BeforeInsertHook, destinationBeforeInsertHook)
 	if err = o.doBeforeInsertHooks(ctx, nil); err != nil {
 		t.Errorf("Unable to execute doBeforeInsertHooks: %s", err)
 	}
 	if !reflect.DeepEqual(o, empty) {
 		t.Errorf("Expected BeforeInsertHook function to empty object, but got: %#v", o)
 	}
-	accountBeforeInsertHooks = []AccountHook{}
+	destinationBeforeInsertHooks = []DestinationHook{}
 
-	AddAccountHook(boil.AfterInsertHook, accountAfterInsertHook)
+	AddDestinationHook(boil.AfterInsertHook, destinationAfterInsertHook)
 	if err = o.doAfterInsertHooks(ctx, nil); err != nil {
 		t.Errorf("Unable to execute doAfterInsertHooks: %s", err)
 	}
 	if !reflect.DeepEqual(o, empty) {
 		t.Errorf("Expected AfterInsertHook function to empty object, but got: %#v", o)
 	}
-	accountAfterInsertHooks = []AccountHook{}
+	destinationAfterInsertHooks = []DestinationHook{}
 
-	AddAccountHook(boil.AfterSelectHook, accountAfterSelectHook)
+	AddDestinationHook(boil.AfterSelectHook, destinationAfterSelectHook)
 	if err = o.doAfterSelectHooks(ctx, nil); err != nil {
 		t.Errorf("Unable to execute doAfterSelectHooks: %s", err)
 	}
 	if !reflect.DeepEqual(o, empty) {
 		t.Errorf("Expected AfterSelectHook function to empty object, but got: %#v", o)
 	}
-	accountAfterSelectHooks = []AccountHook{}
+	destinationAfterSelectHooks = []DestinationHook{}
 
-	AddAccountHook(boil.BeforeUpdateHook, accountBeforeUpdateHook)
+	AddDestinationHook(boil.BeforeUpdateHook, destinationBeforeUpdateHook)
 	if err = o.doBeforeUpdateHooks(ctx, nil); err != nil {
 		t.Errorf("Unable to execute doBeforeUpdateHooks: %s", err)
 	}
 	if !reflect.DeepEqual(o, empty) {
 		t.Errorf("Expected BeforeUpdateHook function to empty object, but got: %#v", o)
 	}
-	accountBeforeUpdateHooks = []AccountHook{}
+	destinationBeforeUpdateHooks = []DestinationHook{}
 
-	AddAccountHook(boil.AfterUpdateHook, accountAfterUpdateHook)
+	AddDestinationHook(boil.AfterUpdateHook, destinationAfterUpdateHook)
 	if err = o.doAfterUpdateHooks(ctx, nil); err != nil {
 		t.Errorf("Unable to execute doAfterUpdateHooks: %s", err)
 	}
 	if !reflect.DeepEqual(o, empty) {
 		t.Errorf("Expected AfterUpdateHook function to empty object, but got: %#v", o)
 	}
-	accountAfterUpdateHooks = []AccountHook{}
+	destinationAfterUpdateHooks = []DestinationHook{}
 
-	AddAccountHook(boil.BeforeDeleteHook, accountBeforeDeleteHook)
+	AddDestinationHook(boil.BeforeDeleteHook, destinationBeforeDeleteHook)
 	if err = o.doBeforeDeleteHooks(ctx, nil); err != nil {
 		t.Errorf("Unable to execute doBeforeDeleteHooks: %s", err)
 	}
 	if !reflect.DeepEqual(o, empty) {
 		t.Errorf("Expected BeforeDeleteHook function to empty object, but got: %#v", o)
 	}
-	accountBeforeDeleteHooks = []AccountHook{}
+	destinationBeforeDeleteHooks = []DestinationHook{}
 
-	AddAccountHook(boil.AfterDeleteHook, accountAfterDeleteHook)
+	AddDestinationHook(boil.AfterDeleteHook, destinationAfterDeleteHook)
 	if err = o.doAfterDeleteHooks(ctx, nil); err != nil {
 		t.Errorf("Unable to execute doAfterDeleteHooks: %s", err)
 	}
 	if !reflect.DeepEqual(o, empty) {
 		t.Errorf("Expected AfterDeleteHook function to empty object, but got: %#v", o)
 	}
-	accountAfterDeleteHooks = []AccountHook{}
+	destinationAfterDeleteHooks = []DestinationHook{}
 
-	AddAccountHook(boil.BeforeUpsertHook, accountBeforeUpsertHook)
+	AddDestinationHook(boil.BeforeUpsertHook, destinationBeforeUpsertHook)
 	if err = o.doBeforeUpsertHooks(ctx, nil); err != nil {
 		t.Errorf("Unable to execute doBeforeUpsertHooks: %s", err)
 	}
 	if !reflect.DeepEqual(o, empty) {
 		t.Errorf("Expected BeforeUpsertHook function to empty object, but got: %#v", o)
 	}
-	accountBeforeUpsertHooks = []AccountHook{}
+	destinationBeforeUpsertHooks = []DestinationHook{}
 
-	AddAccountHook(boil.AfterUpsertHook, accountAfterUpsertHook)
+	AddDestinationHook(boil.AfterUpsertHook, destinationAfterUpsertHook)
 	if err = o.doAfterUpsertHooks(ctx, nil); err != nil {
 		t.Errorf("Unable to execute doAfterUpsertHooks: %s", err)
 	}
 	if !reflect.DeepEqual(o, empty) {
 		t.Errorf("Expected AfterUpsertHook function to empty object, but got: %#v", o)
 	}
-	accountAfterUpsertHooks = []AccountHook{}
+	destinationAfterUpsertHooks = []DestinationHook{}
 }
 
-func testAccountsInsert(t *testing.T) {
+func testDestinationsInsert(t *testing.T) {
 	t.Parallel()
 
 	seed := randomize.NewSeed()
 	var err error
-	o := &Account{}
-	if err = randomize.Struct(seed, o, accountDBTypes, true, accountColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize Account struct: %s", err)
+	o := &Destination{}
+	if err = randomize.Struct(seed, o, destinationDBTypes, true, destinationColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Destination struct: %s", err)
 	}
 
 	ctx := context.Background()
@@ -457,7 +457,7 @@ func testAccountsInsert(t *testing.T) {
 		t.Error(err)
 	}
 
-	count, err := Accounts().Count(ctx, tx)
+	count, err := Destinations().Count(ctx, tx)
 	if err != nil {
 		t.Error(err)
 	}
@@ -467,24 +467,24 @@ func testAccountsInsert(t *testing.T) {
 	}
 }
 
-func testAccountsInsertWhitelist(t *testing.T) {
+func testDestinationsInsertWhitelist(t *testing.T) {
 	t.Parallel()
 
 	seed := randomize.NewSeed()
 	var err error
-	o := &Account{}
-	if err = randomize.Struct(seed, o, accountDBTypes, true); err != nil {
-		t.Errorf("Unable to randomize Account struct: %s", err)
+	o := &Destination{}
+	if err = randomize.Struct(seed, o, destinationDBTypes, true); err != nil {
+		t.Errorf("Unable to randomize Destination struct: %s", err)
 	}
 
 	ctx := context.Background()
 	tx := MustTx(boil.BeginTx(ctx, nil))
 	defer func() { _ = tx.Rollback() }()
-	if err = o.Insert(ctx, tx, boil.Whitelist(accountColumnsWithoutDefault...)); err != nil {
+	if err = o.Insert(ctx, tx, boil.Whitelist(destinationColumnsWithoutDefault...)); err != nil {
 		t.Error(err)
 	}
 
-	count, err := Accounts().Count(ctx, tx)
+	count, err := Destinations().Count(ctx, tx)
 	if err != nil {
 		t.Error(err)
 	}
@@ -494,33 +494,33 @@ func testAccountsInsertWhitelist(t *testing.T) {
 	}
 }
 
-func testAccountToManyCreatedByRestaurants(t *testing.T) {
+func testDestinationToManyDestinationDetails(t *testing.T) {
 	var err error
 	ctx := context.Background()
 	tx := MustTx(boil.BeginTx(ctx, nil))
 	defer func() { _ = tx.Rollback() }()
 
-	var a Account
-	var b, c Restaurant
+	var a Destination
+	var b, c DestinationDetail
 
 	seed := randomize.NewSeed()
-	if err = randomize.Struct(seed, &a, accountDBTypes, true, accountColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize Account struct: %s", err)
+	if err = randomize.Struct(seed, &a, destinationDBTypes, true, destinationColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Destination struct: %s", err)
 	}
 
 	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
 		t.Fatal(err)
 	}
 
-	if err = randomize.Struct(seed, &b, restaurantDBTypes, false, restaurantColumnsWithDefault...); err != nil {
+	if err = randomize.Struct(seed, &b, destinationDetailDBTypes, false, destinationDetailColumnsWithDefault...); err != nil {
 		t.Fatal(err)
 	}
-	if err = randomize.Struct(seed, &c, restaurantDBTypes, false, restaurantColumnsWithDefault...); err != nil {
+	if err = randomize.Struct(seed, &c, destinationDetailDBTypes, false, destinationDetailColumnsWithDefault...); err != nil {
 		t.Fatal(err)
 	}
 
-	queries.Assign(&b.CreatedBy, a.ID)
-	queries.Assign(&c.CreatedBy, a.ID)
+	queries.Assign(&b.DestinationID, a.ID)
+	queries.Assign(&c.DestinationID, a.ID)
 	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
 		t.Fatal(err)
 	}
@@ -528,17 +528,17 @@ func testAccountToManyCreatedByRestaurants(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	check, err := a.CreatedByRestaurants().All(ctx, tx)
+	check, err := a.DestinationDetails().All(ctx, tx)
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	bFound, cFound := false, false
 	for _, v := range check {
-		if queries.Equal(v.CreatedBy, b.CreatedBy) {
+		if queries.Equal(v.DestinationID, b.DestinationID) {
 			bFound = true
 		}
-		if queries.Equal(v.CreatedBy, c.CreatedBy) {
+		if queries.Equal(v.DestinationID, c.DestinationID) {
 			cFound = true
 		}
 	}
@@ -550,19 +550,19 @@ func testAccountToManyCreatedByRestaurants(t *testing.T) {
 		t.Error("expected to find c")
 	}
 
-	slice := AccountSlice{&a}
-	if err = a.L.LoadCreatedByRestaurants(ctx, tx, false, (*[]*Account)(&slice), nil); err != nil {
+	slice := DestinationSlice{&a}
+	if err = a.L.LoadDestinationDetails(ctx, tx, false, (*[]*Destination)(&slice), nil); err != nil {
 		t.Fatal(err)
 	}
-	if got := len(a.R.CreatedByRestaurants); got != 2 {
+	if got := len(a.R.DestinationDetails); got != 2 {
 		t.Error("number of eager loaded records wrong, got:", got)
 	}
 
-	a.R.CreatedByRestaurants = nil
-	if err = a.L.LoadCreatedByRestaurants(ctx, tx, true, &a, nil); err != nil {
+	a.R.DestinationDetails = nil
+	if err = a.L.LoadDestinationDetails(ctx, tx, true, &a, nil); err != nil {
 		t.Fatal(err)
 	}
-	if got := len(a.R.CreatedByRestaurants); got != 2 {
+	if got := len(a.R.DestinationDetails); got != 2 {
 		t.Error("number of eager loaded records wrong, got:", got)
 	}
 
@@ -571,33 +571,33 @@ func testAccountToManyCreatedByRestaurants(t *testing.T) {
 	}
 }
 
-func testAccountToManyRestaurantReviews(t *testing.T) {
+func testDestinationToManyDestinationRanks(t *testing.T) {
 	var err error
 	ctx := context.Background()
 	tx := MustTx(boil.BeginTx(ctx, nil))
 	defer func() { _ = tx.Rollback() }()
 
-	var a Account
-	var b, c RestaurantReview
+	var a Destination
+	var b, c DestinationRank
 
 	seed := randomize.NewSeed()
-	if err = randomize.Struct(seed, &a, accountDBTypes, true, accountColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize Account struct: %s", err)
+	if err = randomize.Struct(seed, &a, destinationDBTypes, true, destinationColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Destination struct: %s", err)
 	}
 
 	if err := a.Insert(ctx, tx, boil.Infer()); err != nil {
 		t.Fatal(err)
 	}
 
-	if err = randomize.Struct(seed, &b, restaurantReviewDBTypes, false, restaurantReviewColumnsWithDefault...); err != nil {
+	if err = randomize.Struct(seed, &b, destinationRankDBTypes, false, destinationRankColumnsWithDefault...); err != nil {
 		t.Fatal(err)
 	}
-	if err = randomize.Struct(seed, &c, restaurantReviewDBTypes, false, restaurantReviewColumnsWithDefault...); err != nil {
+	if err = randomize.Struct(seed, &c, destinationRankDBTypes, false, destinationRankColumnsWithDefault...); err != nil {
 		t.Fatal(err)
 	}
 
-	b.AccountID = a.ID
-	c.AccountID = a.ID
+	b.DestinationID = a.ID
+	c.DestinationID = a.ID
 
 	if err = b.Insert(ctx, tx, boil.Infer()); err != nil {
 		t.Fatal(err)
@@ -606,17 +606,17 @@ func testAccountToManyRestaurantReviews(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	check, err := a.RestaurantReviews().All(ctx, tx)
+	check, err := a.DestinationRanks().All(ctx, tx)
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	bFound, cFound := false, false
 	for _, v := range check {
-		if v.AccountID == b.AccountID {
+		if v.DestinationID == b.DestinationID {
 			bFound = true
 		}
-		if v.AccountID == c.AccountID {
+		if v.DestinationID == c.DestinationID {
 			cFound = true
 		}
 	}
@@ -628,19 +628,19 @@ func testAccountToManyRestaurantReviews(t *testing.T) {
 		t.Error("expected to find c")
 	}
 
-	slice := AccountSlice{&a}
-	if err = a.L.LoadRestaurantReviews(ctx, tx, false, (*[]*Account)(&slice), nil); err != nil {
+	slice := DestinationSlice{&a}
+	if err = a.L.LoadDestinationRanks(ctx, tx, false, (*[]*Destination)(&slice), nil); err != nil {
 		t.Fatal(err)
 	}
-	if got := len(a.R.RestaurantReviews); got != 2 {
+	if got := len(a.R.DestinationRanks); got != 2 {
 		t.Error("number of eager loaded records wrong, got:", got)
 	}
 
-	a.R.RestaurantReviews = nil
-	if err = a.L.LoadRestaurantReviews(ctx, tx, true, &a, nil); err != nil {
+	a.R.DestinationRanks = nil
+	if err = a.L.LoadDestinationRanks(ctx, tx, true, &a, nil); err != nil {
 		t.Fatal(err)
 	}
-	if got := len(a.R.RestaurantReviews); got != 2 {
+	if got := len(a.R.DestinationRanks); got != 2 {
 		t.Error("number of eager loaded records wrong, got:", got)
 	}
 
@@ -649,23 +649,23 @@ func testAccountToManyRestaurantReviews(t *testing.T) {
 	}
 }
 
-func testAccountToManyAddOpCreatedByRestaurants(t *testing.T) {
+func testDestinationToManyAddOpDestinationDetails(t *testing.T) {
 	var err error
 
 	ctx := context.Background()
 	tx := MustTx(boil.BeginTx(ctx, nil))
 	defer func() { _ = tx.Rollback() }()
 
-	var a Account
-	var b, c, d, e Restaurant
+	var a Destination
+	var b, c, d, e DestinationDetail
 
 	seed := randomize.NewSeed()
-	if err = randomize.Struct(seed, &a, accountDBTypes, false, strmangle.SetComplement(accountPrimaryKeyColumns, accountColumnsWithoutDefault)...); err != nil {
+	if err = randomize.Struct(seed, &a, destinationDBTypes, false, strmangle.SetComplement(destinationPrimaryKeyColumns, destinationColumnsWithoutDefault)...); err != nil {
 		t.Fatal(err)
 	}
-	foreigners := []*Restaurant{&b, &c, &d, &e}
+	foreigners := []*DestinationDetail{&b, &c, &d, &e}
 	for _, x := range foreigners {
-		if err = randomize.Struct(seed, x, restaurantDBTypes, false, strmangle.SetComplement(restaurantPrimaryKeyColumns, restaurantColumnsWithoutDefault)...); err != nil {
+		if err = randomize.Struct(seed, x, destinationDetailDBTypes, false, strmangle.SetComplement(destinationDetailPrimaryKeyColumns, destinationDetailColumnsWithoutDefault)...); err != nil {
 			t.Fatal(err)
 		}
 	}
@@ -680,13 +680,13 @@ func testAccountToManyAddOpCreatedByRestaurants(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	foreignersSplitByInsertion := [][]*Restaurant{
+	foreignersSplitByInsertion := [][]*DestinationDetail{
 		{&b, &c},
 		{&d, &e},
 	}
 
 	for i, x := range foreignersSplitByInsertion {
-		err = a.AddCreatedByRestaurants(ctx, tx, i != 0, x...)
+		err = a.AddDestinationDetails(ctx, tx, i != 0, x...)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -694,28 +694,28 @@ func testAccountToManyAddOpCreatedByRestaurants(t *testing.T) {
 		first := x[0]
 		second := x[1]
 
-		if !queries.Equal(a.ID, first.CreatedBy) {
-			t.Error("foreign key was wrong value", a.ID, first.CreatedBy)
+		if !queries.Equal(a.ID, first.DestinationID) {
+			t.Error("foreign key was wrong value", a.ID, first.DestinationID)
 		}
-		if !queries.Equal(a.ID, second.CreatedBy) {
-			t.Error("foreign key was wrong value", a.ID, second.CreatedBy)
+		if !queries.Equal(a.ID, second.DestinationID) {
+			t.Error("foreign key was wrong value", a.ID, second.DestinationID)
 		}
 
-		if first.R.CreatedByAccount != &a {
+		if first.R.Destination != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
-		if second.R.CreatedByAccount != &a {
+		if second.R.Destination != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
 
-		if a.R.CreatedByRestaurants[i*2] != first {
+		if a.R.DestinationDetails[i*2] != first {
 			t.Error("relationship struct slice not set to correct value")
 		}
-		if a.R.CreatedByRestaurants[i*2+1] != second {
+		if a.R.DestinationDetails[i*2+1] != second {
 			t.Error("relationship struct slice not set to correct value")
 		}
 
-		count, err := a.CreatedByRestaurants().Count(ctx, tx)
+		count, err := a.DestinationDetails().Count(ctx, tx)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -725,23 +725,23 @@ func testAccountToManyAddOpCreatedByRestaurants(t *testing.T) {
 	}
 }
 
-func testAccountToManySetOpCreatedByRestaurants(t *testing.T) {
+func testDestinationToManySetOpDestinationDetails(t *testing.T) {
 	var err error
 
 	ctx := context.Background()
 	tx := MustTx(boil.BeginTx(ctx, nil))
 	defer func() { _ = tx.Rollback() }()
 
-	var a Account
-	var b, c, d, e Restaurant
+	var a Destination
+	var b, c, d, e DestinationDetail
 
 	seed := randomize.NewSeed()
-	if err = randomize.Struct(seed, &a, accountDBTypes, false, strmangle.SetComplement(accountPrimaryKeyColumns, accountColumnsWithoutDefault)...); err != nil {
+	if err = randomize.Struct(seed, &a, destinationDBTypes, false, strmangle.SetComplement(destinationPrimaryKeyColumns, destinationColumnsWithoutDefault)...); err != nil {
 		t.Fatal(err)
 	}
-	foreigners := []*Restaurant{&b, &c, &d, &e}
+	foreigners := []*DestinationDetail{&b, &c, &d, &e}
 	for _, x := range foreigners {
-		if err = randomize.Struct(seed, x, restaurantDBTypes, false, strmangle.SetComplement(restaurantPrimaryKeyColumns, restaurantColumnsWithoutDefault)...); err != nil {
+		if err = randomize.Struct(seed, x, destinationDetailDBTypes, false, strmangle.SetComplement(destinationDetailPrimaryKeyColumns, destinationDetailColumnsWithoutDefault)...); err != nil {
 			t.Fatal(err)
 		}
 	}
@@ -756,25 +756,12 @@ func testAccountToManySetOpCreatedByRestaurants(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	err = a.SetCreatedByRestaurants(ctx, tx, false, &b, &c)
+	err = a.SetDestinationDetails(ctx, tx, false, &b, &c)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	count, err := a.CreatedByRestaurants().Count(ctx, tx)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if count != 2 {
-		t.Error("count was wrong:", count)
-	}
-
-	err = a.SetCreatedByRestaurants(ctx, tx, true, &d, &e)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	count, err = a.CreatedByRestaurants().Count(ctx, tx)
+	count, err := a.DestinationDetails().Count(ctx, tx)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -782,57 +769,70 @@ func testAccountToManySetOpCreatedByRestaurants(t *testing.T) {
 		t.Error("count was wrong:", count)
 	}
 
-	if !queries.IsValuerNil(b.CreatedBy) {
+	err = a.SetDestinationDetails(ctx, tx, true, &d, &e)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	count, err = a.DestinationDetails().Count(ctx, tx)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if count != 2 {
+		t.Error("count was wrong:", count)
+	}
+
+	if !queries.IsValuerNil(b.DestinationID) {
 		t.Error("want b's foreign key value to be nil")
 	}
-	if !queries.IsValuerNil(c.CreatedBy) {
+	if !queries.IsValuerNil(c.DestinationID) {
 		t.Error("want c's foreign key value to be nil")
 	}
-	if !queries.Equal(a.ID, d.CreatedBy) {
-		t.Error("foreign key was wrong value", a.ID, d.CreatedBy)
+	if !queries.Equal(a.ID, d.DestinationID) {
+		t.Error("foreign key was wrong value", a.ID, d.DestinationID)
 	}
-	if !queries.Equal(a.ID, e.CreatedBy) {
-		t.Error("foreign key was wrong value", a.ID, e.CreatedBy)
-	}
-
-	if b.R.CreatedByAccount != nil {
-		t.Error("relationship was not removed properly from the foreign struct")
-	}
-	if c.R.CreatedByAccount != nil {
-		t.Error("relationship was not removed properly from the foreign struct")
-	}
-	if d.R.CreatedByAccount != &a {
-		t.Error("relationship was not added properly to the foreign struct")
-	}
-	if e.R.CreatedByAccount != &a {
-		t.Error("relationship was not added properly to the foreign struct")
+	if !queries.Equal(a.ID, e.DestinationID) {
+		t.Error("foreign key was wrong value", a.ID, e.DestinationID)
 	}
 
-	if a.R.CreatedByRestaurants[0] != &d {
+	if b.R.Destination != nil {
+		t.Error("relationship was not removed properly from the foreign struct")
+	}
+	if c.R.Destination != nil {
+		t.Error("relationship was not removed properly from the foreign struct")
+	}
+	if d.R.Destination != &a {
+		t.Error("relationship was not added properly to the foreign struct")
+	}
+	if e.R.Destination != &a {
+		t.Error("relationship was not added properly to the foreign struct")
+	}
+
+	if a.R.DestinationDetails[0] != &d {
 		t.Error("relationship struct slice not set to correct value")
 	}
-	if a.R.CreatedByRestaurants[1] != &e {
+	if a.R.DestinationDetails[1] != &e {
 		t.Error("relationship struct slice not set to correct value")
 	}
 }
 
-func testAccountToManyRemoveOpCreatedByRestaurants(t *testing.T) {
+func testDestinationToManyRemoveOpDestinationDetails(t *testing.T) {
 	var err error
 
 	ctx := context.Background()
 	tx := MustTx(boil.BeginTx(ctx, nil))
 	defer func() { _ = tx.Rollback() }()
 
-	var a Account
-	var b, c, d, e Restaurant
+	var a Destination
+	var b, c, d, e DestinationDetail
 
 	seed := randomize.NewSeed()
-	if err = randomize.Struct(seed, &a, accountDBTypes, false, strmangle.SetComplement(accountPrimaryKeyColumns, accountColumnsWithoutDefault)...); err != nil {
+	if err = randomize.Struct(seed, &a, destinationDBTypes, false, strmangle.SetComplement(destinationPrimaryKeyColumns, destinationColumnsWithoutDefault)...); err != nil {
 		t.Fatal(err)
 	}
-	foreigners := []*Restaurant{&b, &c, &d, &e}
+	foreigners := []*DestinationDetail{&b, &c, &d, &e}
 	for _, x := range foreigners {
-		if err = randomize.Struct(seed, x, restaurantDBTypes, false, strmangle.SetComplement(restaurantPrimaryKeyColumns, restaurantColumnsWithoutDefault)...); err != nil {
+		if err = randomize.Struct(seed, x, destinationDetailDBTypes, false, strmangle.SetComplement(destinationDetailPrimaryKeyColumns, destinationDetailColumnsWithoutDefault)...); err != nil {
 			t.Fatal(err)
 		}
 	}
@@ -841,12 +841,12 @@ func testAccountToManyRemoveOpCreatedByRestaurants(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	err = a.AddCreatedByRestaurants(ctx, tx, true, foreigners...)
+	err = a.AddDestinationDetails(ctx, tx, true, foreigners...)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	count, err := a.CreatedByRestaurants().Count(ctx, tx)
+	count, err := a.DestinationDetails().Count(ctx, tx)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -854,12 +854,12 @@ func testAccountToManyRemoveOpCreatedByRestaurants(t *testing.T) {
 		t.Error("count was wrong:", count)
 	}
 
-	err = a.RemoveCreatedByRestaurants(ctx, tx, foreigners[:2]...)
+	err = a.RemoveDestinationDetails(ctx, tx, foreigners[:2]...)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	count, err = a.CreatedByRestaurants().Count(ctx, tx)
+	count, err = a.DestinationDetails().Count(ctx, tx)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -867,56 +867,56 @@ func testAccountToManyRemoveOpCreatedByRestaurants(t *testing.T) {
 		t.Error("count was wrong:", count)
 	}
 
-	if !queries.IsValuerNil(b.CreatedBy) {
+	if !queries.IsValuerNil(b.DestinationID) {
 		t.Error("want b's foreign key value to be nil")
 	}
-	if !queries.IsValuerNil(c.CreatedBy) {
+	if !queries.IsValuerNil(c.DestinationID) {
 		t.Error("want c's foreign key value to be nil")
 	}
 
-	if b.R.CreatedByAccount != nil {
+	if b.R.Destination != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if c.R.CreatedByAccount != nil {
+	if c.R.Destination != nil {
 		t.Error("relationship was not removed properly from the foreign struct")
 	}
-	if d.R.CreatedByAccount != &a {
+	if d.R.Destination != &a {
 		t.Error("relationship to a should have been preserved")
 	}
-	if e.R.CreatedByAccount != &a {
+	if e.R.Destination != &a {
 		t.Error("relationship to a should have been preserved")
 	}
 
-	if len(a.R.CreatedByRestaurants) != 2 {
+	if len(a.R.DestinationDetails) != 2 {
 		t.Error("should have preserved two relationships")
 	}
 
 	// Removal doesn't do a stable deletion for performance so we have to flip the order
-	if a.R.CreatedByRestaurants[1] != &d {
+	if a.R.DestinationDetails[1] != &d {
 		t.Error("relationship to d should have been preserved")
 	}
-	if a.R.CreatedByRestaurants[0] != &e {
+	if a.R.DestinationDetails[0] != &e {
 		t.Error("relationship to e should have been preserved")
 	}
 }
 
-func testAccountToManyAddOpRestaurantReviews(t *testing.T) {
+func testDestinationToManyAddOpDestinationRanks(t *testing.T) {
 	var err error
 
 	ctx := context.Background()
 	tx := MustTx(boil.BeginTx(ctx, nil))
 	defer func() { _ = tx.Rollback() }()
 
-	var a Account
-	var b, c, d, e RestaurantReview
+	var a Destination
+	var b, c, d, e DestinationRank
 
 	seed := randomize.NewSeed()
-	if err = randomize.Struct(seed, &a, accountDBTypes, false, strmangle.SetComplement(accountPrimaryKeyColumns, accountColumnsWithoutDefault)...); err != nil {
+	if err = randomize.Struct(seed, &a, destinationDBTypes, false, strmangle.SetComplement(destinationPrimaryKeyColumns, destinationColumnsWithoutDefault)...); err != nil {
 		t.Fatal(err)
 	}
-	foreigners := []*RestaurantReview{&b, &c, &d, &e}
+	foreigners := []*DestinationRank{&b, &c, &d, &e}
 	for _, x := range foreigners {
-		if err = randomize.Struct(seed, x, restaurantReviewDBTypes, false, strmangle.SetComplement(restaurantReviewPrimaryKeyColumns, restaurantReviewColumnsWithoutDefault)...); err != nil {
+		if err = randomize.Struct(seed, x, destinationRankDBTypes, false, strmangle.SetComplement(destinationRankPrimaryKeyColumns, destinationRankColumnsWithoutDefault)...); err != nil {
 			t.Fatal(err)
 		}
 	}
@@ -931,13 +931,13 @@ func testAccountToManyAddOpRestaurantReviews(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	foreignersSplitByInsertion := [][]*RestaurantReview{
+	foreignersSplitByInsertion := [][]*DestinationRank{
 		{&b, &c},
 		{&d, &e},
 	}
 
 	for i, x := range foreignersSplitByInsertion {
-		err = a.AddRestaurantReviews(ctx, tx, i != 0, x...)
+		err = a.AddDestinationRanks(ctx, tx, i != 0, x...)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -945,28 +945,28 @@ func testAccountToManyAddOpRestaurantReviews(t *testing.T) {
 		first := x[0]
 		second := x[1]
 
-		if a.ID != first.AccountID {
-			t.Error("foreign key was wrong value", a.ID, first.AccountID)
+		if a.ID != first.DestinationID {
+			t.Error("foreign key was wrong value", a.ID, first.DestinationID)
 		}
-		if a.ID != second.AccountID {
-			t.Error("foreign key was wrong value", a.ID, second.AccountID)
+		if a.ID != second.DestinationID {
+			t.Error("foreign key was wrong value", a.ID, second.DestinationID)
 		}
 
-		if first.R.Account != &a {
+		if first.R.Destination != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
-		if second.R.Account != &a {
+		if second.R.Destination != &a {
 			t.Error("relationship was not added properly to the foreign slice")
 		}
 
-		if a.R.RestaurantReviews[i*2] != first {
+		if a.R.DestinationRanks[i*2] != first {
 			t.Error("relationship struct slice not set to correct value")
 		}
-		if a.R.RestaurantReviews[i*2+1] != second {
+		if a.R.DestinationRanks[i*2+1] != second {
 			t.Error("relationship struct slice not set to correct value")
 		}
 
-		count, err := a.RestaurantReviews().Count(ctx, tx)
+		count, err := a.DestinationRanks().Count(ctx, tx)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -976,14 +976,14 @@ func testAccountToManyAddOpRestaurantReviews(t *testing.T) {
 	}
 }
 
-func testAccountsReload(t *testing.T) {
+func testDestinationsReload(t *testing.T) {
 	t.Parallel()
 
 	seed := randomize.NewSeed()
 	var err error
-	o := &Account{}
-	if err = randomize.Struct(seed, o, accountDBTypes, true, accountColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize Account struct: %s", err)
+	o := &Destination{}
+	if err = randomize.Struct(seed, o, destinationDBTypes, true, destinationColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Destination struct: %s", err)
 	}
 
 	ctx := context.Background()
@@ -998,14 +998,14 @@ func testAccountsReload(t *testing.T) {
 	}
 }
 
-func testAccountsReloadAll(t *testing.T) {
+func testDestinationsReloadAll(t *testing.T) {
 	t.Parallel()
 
 	seed := randomize.NewSeed()
 	var err error
-	o := &Account{}
-	if err = randomize.Struct(seed, o, accountDBTypes, true, accountColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize Account struct: %s", err)
+	o := &Destination{}
+	if err = randomize.Struct(seed, o, destinationDBTypes, true, destinationColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Destination struct: %s", err)
 	}
 
 	ctx := context.Background()
@@ -1015,21 +1015,21 @@ func testAccountsReloadAll(t *testing.T) {
 		t.Error(err)
 	}
 
-	slice := AccountSlice{o}
+	slice := DestinationSlice{o}
 
 	if err = slice.ReloadAll(ctx, tx); err != nil {
 		t.Error(err)
 	}
 }
 
-func testAccountsSelect(t *testing.T) {
+func testDestinationsSelect(t *testing.T) {
 	t.Parallel()
 
 	seed := randomize.NewSeed()
 	var err error
-	o := &Account{}
-	if err = randomize.Struct(seed, o, accountDBTypes, true, accountColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize Account struct: %s", err)
+	o := &Destination{}
+	if err = randomize.Struct(seed, o, destinationDBTypes, true, destinationColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Destination struct: %s", err)
 	}
 
 	ctx := context.Background()
@@ -1039,7 +1039,7 @@ func testAccountsSelect(t *testing.T) {
 		t.Error(err)
 	}
 
-	slice, err := Accounts().All(ctx, tx)
+	slice, err := Destinations().All(ctx, tx)
 	if err != nil {
 		t.Error(err)
 	}
@@ -1050,25 +1050,25 @@ func testAccountsSelect(t *testing.T) {
 }
 
 var (
-	accountDBTypes = map[string]string{`ID`: `integer`, `Email`: `text`, `Username`: `text`, `Firstname`: `text`, `Lastname`: `text`, `Profileimage`: `text`, `Password`: `text`, `Type`: `text`}
-	_              = bytes.MinRead
+	destinationDBTypes = map[string]string{`ID`: `integer`, `Name`: `text`, `Country`: `text`, `Description`: `text`, `Imagename`: `text`, `Imagedata`: `text`, `Latitude`: `double precision`, `Longitude`: `double precision`}
+	_                  = bytes.MinRead
 )
 
-func testAccountsUpdate(t *testing.T) {
+func testDestinationsUpdate(t *testing.T) {
 	t.Parallel()
 
-	if 0 == len(accountPrimaryKeyColumns) {
+	if 0 == len(destinationPrimaryKeyColumns) {
 		t.Skip("Skipping table with no primary key columns")
 	}
-	if len(accountAllColumns) == len(accountPrimaryKeyColumns) {
+	if len(destinationAllColumns) == len(destinationPrimaryKeyColumns) {
 		t.Skip("Skipping table with only primary key columns")
 	}
 
 	seed := randomize.NewSeed()
 	var err error
-	o := &Account{}
-	if err = randomize.Struct(seed, o, accountDBTypes, true, accountColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize Account struct: %s", err)
+	o := &Destination{}
+	if err = randomize.Struct(seed, o, destinationDBTypes, true, destinationColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Destination struct: %s", err)
 	}
 
 	ctx := context.Background()
@@ -1078,7 +1078,7 @@ func testAccountsUpdate(t *testing.T) {
 		t.Error(err)
 	}
 
-	count, err := Accounts().Count(ctx, tx)
+	count, err := Destinations().Count(ctx, tx)
 	if err != nil {
 		t.Error(err)
 	}
@@ -1087,8 +1087,8 @@ func testAccountsUpdate(t *testing.T) {
 		t.Error("want one record, got:", count)
 	}
 
-	if err = randomize.Struct(seed, o, accountDBTypes, true, accountPrimaryKeyColumns...); err != nil {
-		t.Errorf("Unable to randomize Account struct: %s", err)
+	if err = randomize.Struct(seed, o, destinationDBTypes, true, destinationPrimaryKeyColumns...); err != nil {
+		t.Errorf("Unable to randomize Destination struct: %s", err)
 	}
 
 	if rowsAff, err := o.Update(ctx, tx, boil.Infer()); err != nil {
@@ -1098,18 +1098,18 @@ func testAccountsUpdate(t *testing.T) {
 	}
 }
 
-func testAccountsSliceUpdateAll(t *testing.T) {
+func testDestinationsSliceUpdateAll(t *testing.T) {
 	t.Parallel()
 
-	if len(accountAllColumns) == len(accountPrimaryKeyColumns) {
+	if len(destinationAllColumns) == len(destinationPrimaryKeyColumns) {
 		t.Skip("Skipping table with only primary key columns")
 	}
 
 	seed := randomize.NewSeed()
 	var err error
-	o := &Account{}
-	if err = randomize.Struct(seed, o, accountDBTypes, true, accountColumnsWithDefault...); err != nil {
-		t.Errorf("Unable to randomize Account struct: %s", err)
+	o := &Destination{}
+	if err = randomize.Struct(seed, o, destinationDBTypes, true, destinationColumnsWithDefault...); err != nil {
+		t.Errorf("Unable to randomize Destination struct: %s", err)
 	}
 
 	ctx := context.Background()
@@ -1119,7 +1119,7 @@ func testAccountsSliceUpdateAll(t *testing.T) {
 		t.Error(err)
 	}
 
-	count, err := Accounts().Count(ctx, tx)
+	count, err := Destinations().Count(ctx, tx)
 	if err != nil {
 		t.Error(err)
 	}
@@ -1128,18 +1128,18 @@ func testAccountsSliceUpdateAll(t *testing.T) {
 		t.Error("want one record, got:", count)
 	}
 
-	if err = randomize.Struct(seed, o, accountDBTypes, true, accountPrimaryKeyColumns...); err != nil {
-		t.Errorf("Unable to randomize Account struct: %s", err)
+	if err = randomize.Struct(seed, o, destinationDBTypes, true, destinationPrimaryKeyColumns...); err != nil {
+		t.Errorf("Unable to randomize Destination struct: %s", err)
 	}
 
 	// Remove Primary keys and unique columns from what we plan to update
 	var fields []string
-	if strmangle.StringSliceMatch(accountAllColumns, accountPrimaryKeyColumns) {
-		fields = accountAllColumns
+	if strmangle.StringSliceMatch(destinationAllColumns, destinationPrimaryKeyColumns) {
+		fields = destinationAllColumns
 	} else {
 		fields = strmangle.SetComplement(
-			accountAllColumns,
-			accountPrimaryKeyColumns,
+			destinationAllColumns,
+			destinationPrimaryKeyColumns,
 		)
 	}
 
@@ -1157,7 +1157,7 @@ func testAccountsSliceUpdateAll(t *testing.T) {
 		}
 	}
 
-	slice := AccountSlice{o}
+	slice := DestinationSlice{o}
 	if rowsAff, err := slice.UpdateAll(ctx, tx, updateMap); err != nil {
 		t.Error(err)
 	} else if rowsAff != 1 {
@@ -1165,29 +1165,29 @@ func testAccountsSliceUpdateAll(t *testing.T) {
 	}
 }
 
-func testAccountsUpsert(t *testing.T) {
+func testDestinationsUpsert(t *testing.T) {
 	t.Parallel()
 
-	if len(accountAllColumns) == len(accountPrimaryKeyColumns) {
+	if len(destinationAllColumns) == len(destinationPrimaryKeyColumns) {
 		t.Skip("Skipping table with only primary key columns")
 	}
 
 	seed := randomize.NewSeed()
 	var err error
 	// Attempt the INSERT side of an UPSERT
-	o := Account{}
-	if err = randomize.Struct(seed, &o, accountDBTypes, true); err != nil {
-		t.Errorf("Unable to randomize Account struct: %s", err)
+	o := Destination{}
+	if err = randomize.Struct(seed, &o, destinationDBTypes, true); err != nil {
+		t.Errorf("Unable to randomize Destination struct: %s", err)
 	}
 
 	ctx := context.Background()
 	tx := MustTx(boil.BeginTx(ctx, nil))
 	defer func() { _ = tx.Rollback() }()
 	if err = o.Upsert(ctx, tx, false, nil, boil.Infer(), boil.Infer()); err != nil {
-		t.Errorf("Unable to upsert Account: %s", err)
+		t.Errorf("Unable to upsert Destination: %s", err)
 	}
 
-	count, err := Accounts().Count(ctx, tx)
+	count, err := Destinations().Count(ctx, tx)
 	if err != nil {
 		t.Error(err)
 	}
@@ -1196,15 +1196,15 @@ func testAccountsUpsert(t *testing.T) {
 	}
 
 	// Attempt the UPDATE side of an UPSERT
-	if err = randomize.Struct(seed, &o, accountDBTypes, false, accountPrimaryKeyColumns...); err != nil {
-		t.Errorf("Unable to randomize Account struct: %s", err)
+	if err = randomize.Struct(seed, &o, destinationDBTypes, false, destinationPrimaryKeyColumns...); err != nil {
+		t.Errorf("Unable to randomize Destination struct: %s", err)
 	}
 
 	if err = o.Upsert(ctx, tx, true, nil, boil.Infer(), boil.Infer()); err != nil {
-		t.Errorf("Unable to upsert Account: %s", err)
+		t.Errorf("Unable to upsert Destination: %s", err)
 	}
 
-	count, err = Accounts().Count(ctx, tx)
+	count, err = Destinations().Count(ctx, tx)
 	if err != nil {
 		t.Error(err)
 	}

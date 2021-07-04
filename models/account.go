@@ -24,37 +24,57 @@ import (
 
 // Account is an object representing the database table.
 type Account struct {
-	ID       int         `boil:"id" json:"id" toml:"id" yaml:"id"`
-	Email    null.String `boil:"email" json:"email,omitempty" toml:"email" yaml:"email,omitempty"`
-	Password null.String `boil:"password" json:"password,omitempty" toml:"password" yaml:"password,omitempty"`
-	Type     null.String `boil:"type" json:"type,omitempty" toml:"type" yaml:"type,omitempty"`
+	ID           int         `boil:"id" json:"id" toml:"id" yaml:"id"`
+	Email        null.String `boil:"email" json:"email,omitempty" toml:"email" yaml:"email,omitempty"`
+	Username     null.String `boil:"username" json:"userName,omitempty" toml:"username" yaml:"username,omitempty"`
+	Firstname    null.String `boil:"firstname" json:"firstName,omitempty" toml:"firstname" yaml:"firstname,omitempty"`
+	Lastname     null.String `boil:"lastname" json:"lastName,omitempty" toml:"lastname" yaml:"lastname,omitempty"`
+	Profileimage null.String `boil:"profileimage" json:"profileImage,omitempty" toml:"profileimage" yaml:"profileimage,omitempty"`
+	Password     null.String `boil:"password" json:"password,omitempty" toml:"password" yaml:"password,omitempty"`
+	Type         null.String `boil:"type" json:"type,omitempty" toml:"type" yaml:"type,omitempty"`
 
 	R *accountR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L accountL  `boil:"-" json:"-" toml:"-" yaml:"-"`
 }
 
 var AccountColumns = struct {
-	ID       string
-	Email    string
-	Password string
-	Type     string
+	ID           string
+	Email        string
+	Username     string
+	Firstname    string
+	Lastname     string
+	Profileimage string
+	Password     string
+	Type         string
 }{
-	ID:       "id",
-	Email:    "email",
-	Password: "password",
-	Type:     "type",
+	ID:           "id",
+	Email:        "email",
+	Username:     "username",
+	Firstname:    "firstname",
+	Lastname:     "lastname",
+	Profileimage: "profileimage",
+	Password:     "password",
+	Type:         "type",
 }
 
 var AccountTableColumns = struct {
-	ID       string
-	Email    string
-	Password string
-	Type     string
+	ID           string
+	Email        string
+	Username     string
+	Firstname    string
+	Lastname     string
+	Profileimage string
+	Password     string
+	Type         string
 }{
-	ID:       "account.id",
-	Email:    "account.email",
-	Password: "account.password",
-	Type:     "account.type",
+	ID:           "account.id",
+	Email:        "account.email",
+	Username:     "account.username",
+	Firstname:    "account.firstname",
+	Lastname:     "account.lastname",
+	Profileimage: "account.profileimage",
+	Password:     "account.password",
+	Type:         "account.type",
 }
 
 // Generated where
@@ -106,23 +126,38 @@ func (w whereHelpernull_String) GTE(x null.String) qm.QueryMod {
 }
 
 var AccountWhere = struct {
-	ID       whereHelperint
-	Email    whereHelpernull_String
-	Password whereHelpernull_String
-	Type     whereHelpernull_String
+	ID           whereHelperint
+	Email        whereHelpernull_String
+	Username     whereHelpernull_String
+	Firstname    whereHelpernull_String
+	Lastname     whereHelpernull_String
+	Profileimage whereHelpernull_String
+	Password     whereHelpernull_String
+	Type         whereHelpernull_String
 }{
-	ID:       whereHelperint{field: "\"account\".\"id\""},
-	Email:    whereHelpernull_String{field: "\"account\".\"email\""},
-	Password: whereHelpernull_String{field: "\"account\".\"password\""},
-	Type:     whereHelpernull_String{field: "\"account\".\"type\""},
+	ID:           whereHelperint{field: "\"account\".\"id\""},
+	Email:        whereHelpernull_String{field: "\"account\".\"email\""},
+	Username:     whereHelpernull_String{field: "\"account\".\"username\""},
+	Firstname:    whereHelpernull_String{field: "\"account\".\"firstname\""},
+	Lastname:     whereHelpernull_String{field: "\"account\".\"lastname\""},
+	Profileimage: whereHelpernull_String{field: "\"account\".\"profileimage\""},
+	Password:     whereHelpernull_String{field: "\"account\".\"password\""},
+	Type:         whereHelpernull_String{field: "\"account\".\"type\""},
 }
 
 // AccountRels is where relationship names are stored.
 var AccountRels = struct {
-}{}
+	CreatedByRestaurants string
+	RestaurantReviews    string
+}{
+	CreatedByRestaurants: "CreatedByRestaurants",
+	RestaurantReviews:    "RestaurantReviews",
+}
 
 // accountR is where relationships are stored.
 type accountR struct {
+	CreatedByRestaurants RestaurantSlice       `boil:"CreatedByRestaurants" json:"CreatedByRestaurants" toml:"CreatedByRestaurants" yaml:"CreatedByRestaurants"`
+	RestaurantReviews    RestaurantReviewSlice `boil:"RestaurantReviews" json:"RestaurantReviews" toml:"RestaurantReviews" yaml:"RestaurantReviews"`
 }
 
 // NewStruct creates a new relationship struct
@@ -134,8 +169,8 @@ func (*accountR) NewStruct() *accountR {
 type accountL struct{}
 
 var (
-	accountAllColumns            = []string{"id", "email", "password", "type"}
-	accountColumnsWithoutDefault = []string{"email", "password", "type"}
+	accountAllColumns            = []string{"id", "email", "username", "firstname", "lastname", "profileimage", "password", "type"}
+	accountColumnsWithoutDefault = []string{"email", "username", "firstname", "lastname", "profileimage", "password", "type"}
 	accountColumnsWithDefault    = []string{"id"}
 	accountPrimaryKeyColumns     = []string{"id"}
 )
@@ -413,6 +448,424 @@ func (q accountQuery) Exists(ctx context.Context, exec boil.ContextExecutor) (bo
 	}
 
 	return count > 0, nil
+}
+
+// CreatedByRestaurants retrieves all the restaurant's Restaurants with an executor via created_by column.
+func (o *Account) CreatedByRestaurants(mods ...qm.QueryMod) restaurantQuery {
+	var queryMods []qm.QueryMod
+	if len(mods) != 0 {
+		queryMods = append(queryMods, mods...)
+	}
+
+	queryMods = append(queryMods,
+		qm.Where("\"restaurant\".\"created_by\"=?", o.ID),
+	)
+
+	query := Restaurants(queryMods...)
+	queries.SetFrom(query.Query, "\"restaurant\"")
+
+	if len(queries.GetSelect(query.Query)) == 0 {
+		queries.SetSelect(query.Query, []string{"\"restaurant\".*"})
+	}
+
+	return query
+}
+
+// RestaurantReviews retrieves all the restaurant_review's RestaurantReviews with an executor.
+func (o *Account) RestaurantReviews(mods ...qm.QueryMod) restaurantReviewQuery {
+	var queryMods []qm.QueryMod
+	if len(mods) != 0 {
+		queryMods = append(queryMods, mods...)
+	}
+
+	queryMods = append(queryMods,
+		qm.Where("\"restaurant_reviews\".\"account_id\"=?", o.ID),
+	)
+
+	query := RestaurantReviews(queryMods...)
+	queries.SetFrom(query.Query, "\"restaurant_reviews\"")
+
+	if len(queries.GetSelect(query.Query)) == 0 {
+		queries.SetSelect(query.Query, []string{"\"restaurant_reviews\".*"})
+	}
+
+	return query
+}
+
+// LoadCreatedByRestaurants allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for a 1-M or N-M relationship.
+func (accountL) LoadCreatedByRestaurants(ctx context.Context, e boil.ContextExecutor, singular bool, maybeAccount interface{}, mods queries.Applicator) error {
+	var slice []*Account
+	var object *Account
+
+	if singular {
+		object = maybeAccount.(*Account)
+	} else {
+		slice = *maybeAccount.(*[]*Account)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &accountR{}
+		}
+		args = append(args, object.ID)
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &accountR{}
+			}
+
+			for _, a := range args {
+				if queries.Equal(a, obj.ID) {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.ID)
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(
+		qm.From(`restaurant`),
+		qm.WhereIn(`restaurant.created_by in ?`, args...),
+	)
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.QueryContext(ctx, e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load restaurant")
+	}
+
+	var resultSlice []*Restaurant
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice restaurant")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results in eager load on restaurant")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for restaurant")
+	}
+
+	if len(restaurantAfterSelectHooks) != 0 {
+		for _, obj := range resultSlice {
+			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
+				return err
+			}
+		}
+	}
+	if singular {
+		object.R.CreatedByRestaurants = resultSlice
+		for _, foreign := range resultSlice {
+			if foreign.R == nil {
+				foreign.R = &restaurantR{}
+			}
+			foreign.R.CreatedByAccount = object
+		}
+		return nil
+	}
+
+	for _, foreign := range resultSlice {
+		for _, local := range slice {
+			if queries.Equal(local.ID, foreign.CreatedBy) {
+				local.R.CreatedByRestaurants = append(local.R.CreatedByRestaurants, foreign)
+				if foreign.R == nil {
+					foreign.R = &restaurantR{}
+				}
+				foreign.R.CreatedByAccount = local
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// LoadRestaurantReviews allows an eager lookup of values, cached into the
+// loaded structs of the objects. This is for a 1-M or N-M relationship.
+func (accountL) LoadRestaurantReviews(ctx context.Context, e boil.ContextExecutor, singular bool, maybeAccount interface{}, mods queries.Applicator) error {
+	var slice []*Account
+	var object *Account
+
+	if singular {
+		object = maybeAccount.(*Account)
+	} else {
+		slice = *maybeAccount.(*[]*Account)
+	}
+
+	args := make([]interface{}, 0, 1)
+	if singular {
+		if object.R == nil {
+			object.R = &accountR{}
+		}
+		args = append(args, object.ID)
+	} else {
+	Outer:
+		for _, obj := range slice {
+			if obj.R == nil {
+				obj.R = &accountR{}
+			}
+
+			for _, a := range args {
+				if a == obj.ID {
+					continue Outer
+				}
+			}
+
+			args = append(args, obj.ID)
+		}
+	}
+
+	if len(args) == 0 {
+		return nil
+	}
+
+	query := NewQuery(
+		qm.From(`restaurant_reviews`),
+		qm.WhereIn(`restaurant_reviews.account_id in ?`, args...),
+	)
+	if mods != nil {
+		mods.Apply(query)
+	}
+
+	results, err := query.QueryContext(ctx, e)
+	if err != nil {
+		return errors.Wrap(err, "failed to eager load restaurant_reviews")
+	}
+
+	var resultSlice []*RestaurantReview
+	if err = queries.Bind(results, &resultSlice); err != nil {
+		return errors.Wrap(err, "failed to bind eager loaded slice restaurant_reviews")
+	}
+
+	if err = results.Close(); err != nil {
+		return errors.Wrap(err, "failed to close results in eager load on restaurant_reviews")
+	}
+	if err = results.Err(); err != nil {
+		return errors.Wrap(err, "error occurred during iteration of eager loaded relations for restaurant_reviews")
+	}
+
+	if len(restaurantReviewAfterSelectHooks) != 0 {
+		for _, obj := range resultSlice {
+			if err := obj.doAfterSelectHooks(ctx, e); err != nil {
+				return err
+			}
+		}
+	}
+	if singular {
+		object.R.RestaurantReviews = resultSlice
+		for _, foreign := range resultSlice {
+			if foreign.R == nil {
+				foreign.R = &restaurantReviewR{}
+			}
+			foreign.R.Account = object
+		}
+		return nil
+	}
+
+	for _, foreign := range resultSlice {
+		for _, local := range slice {
+			if local.ID == foreign.AccountID {
+				local.R.RestaurantReviews = append(local.R.RestaurantReviews, foreign)
+				if foreign.R == nil {
+					foreign.R = &restaurantReviewR{}
+				}
+				foreign.R.Account = local
+				break
+			}
+		}
+	}
+
+	return nil
+}
+
+// AddCreatedByRestaurants adds the given related objects to the existing relationships
+// of the account, optionally inserting them as new records.
+// Appends related to o.R.CreatedByRestaurants.
+// Sets related.R.CreatedByAccount appropriately.
+func (o *Account) AddCreatedByRestaurants(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*Restaurant) error {
+	var err error
+	for _, rel := range related {
+		if insert {
+			queries.Assign(&rel.CreatedBy, o.ID)
+			if err = rel.Insert(ctx, exec, boil.Infer()); err != nil {
+				return errors.Wrap(err, "failed to insert into foreign table")
+			}
+		} else {
+			updateQuery := fmt.Sprintf(
+				"UPDATE \"restaurant\" SET %s WHERE %s",
+				strmangle.SetParamNames("\"", "\"", 1, []string{"created_by"}),
+				strmangle.WhereClause("\"", "\"", 2, restaurantPrimaryKeyColumns),
+			)
+			values := []interface{}{o.ID, rel.ID}
+
+			if boil.IsDebug(ctx) {
+				writer := boil.DebugWriterFrom(ctx)
+				fmt.Fprintln(writer, updateQuery)
+				fmt.Fprintln(writer, values)
+			}
+			if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
+				return errors.Wrap(err, "failed to update foreign table")
+			}
+
+			queries.Assign(&rel.CreatedBy, o.ID)
+		}
+	}
+
+	if o.R == nil {
+		o.R = &accountR{
+			CreatedByRestaurants: related,
+		}
+	} else {
+		o.R.CreatedByRestaurants = append(o.R.CreatedByRestaurants, related...)
+	}
+
+	for _, rel := range related {
+		if rel.R == nil {
+			rel.R = &restaurantR{
+				CreatedByAccount: o,
+			}
+		} else {
+			rel.R.CreatedByAccount = o
+		}
+	}
+	return nil
+}
+
+// SetCreatedByRestaurants removes all previously related items of the
+// account replacing them completely with the passed
+// in related items, optionally inserting them as new records.
+// Sets o.R.CreatedByAccount's CreatedByRestaurants accordingly.
+// Replaces o.R.CreatedByRestaurants with related.
+// Sets related.R.CreatedByAccount's CreatedByRestaurants accordingly.
+func (o *Account) SetCreatedByRestaurants(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*Restaurant) error {
+	query := "update \"restaurant\" set \"created_by\" = null where \"created_by\" = $1"
+	values := []interface{}{o.ID}
+	if boil.IsDebug(ctx) {
+		writer := boil.DebugWriterFrom(ctx)
+		fmt.Fprintln(writer, query)
+		fmt.Fprintln(writer, values)
+	}
+	_, err := exec.ExecContext(ctx, query, values...)
+	if err != nil {
+		return errors.Wrap(err, "failed to remove relationships before set")
+	}
+
+	if o.R != nil {
+		for _, rel := range o.R.CreatedByRestaurants {
+			queries.SetScanner(&rel.CreatedBy, nil)
+			if rel.R == nil {
+				continue
+			}
+
+			rel.R.CreatedByAccount = nil
+		}
+
+		o.R.CreatedByRestaurants = nil
+	}
+	return o.AddCreatedByRestaurants(ctx, exec, insert, related...)
+}
+
+// RemoveCreatedByRestaurants relationships from objects passed in.
+// Removes related items from R.CreatedByRestaurants (uses pointer comparison, removal does not keep order)
+// Sets related.R.CreatedByAccount.
+func (o *Account) RemoveCreatedByRestaurants(ctx context.Context, exec boil.ContextExecutor, related ...*Restaurant) error {
+	if len(related) == 0 {
+		return nil
+	}
+
+	var err error
+	for _, rel := range related {
+		queries.SetScanner(&rel.CreatedBy, nil)
+		if rel.R != nil {
+			rel.R.CreatedByAccount = nil
+		}
+		if _, err = rel.Update(ctx, exec, boil.Whitelist("created_by")); err != nil {
+			return err
+		}
+	}
+	if o.R == nil {
+		return nil
+	}
+
+	for _, rel := range related {
+		for i, ri := range o.R.CreatedByRestaurants {
+			if rel != ri {
+				continue
+			}
+
+			ln := len(o.R.CreatedByRestaurants)
+			if ln > 1 && i < ln-1 {
+				o.R.CreatedByRestaurants[i] = o.R.CreatedByRestaurants[ln-1]
+			}
+			o.R.CreatedByRestaurants = o.R.CreatedByRestaurants[:ln-1]
+			break
+		}
+	}
+
+	return nil
+}
+
+// AddRestaurantReviews adds the given related objects to the existing relationships
+// of the account, optionally inserting them as new records.
+// Appends related to o.R.RestaurantReviews.
+// Sets related.R.Account appropriately.
+func (o *Account) AddRestaurantReviews(ctx context.Context, exec boil.ContextExecutor, insert bool, related ...*RestaurantReview) error {
+	var err error
+	for _, rel := range related {
+		if insert {
+			rel.AccountID = o.ID
+			if err = rel.Insert(ctx, exec, boil.Infer()); err != nil {
+				return errors.Wrap(err, "failed to insert into foreign table")
+			}
+		} else {
+			updateQuery := fmt.Sprintf(
+				"UPDATE \"restaurant_reviews\" SET %s WHERE %s",
+				strmangle.SetParamNames("\"", "\"", 1, []string{"account_id"}),
+				strmangle.WhereClause("\"", "\"", 2, restaurantReviewPrimaryKeyColumns),
+			)
+			values := []interface{}{o.ID, rel.ID}
+
+			if boil.IsDebug(ctx) {
+				writer := boil.DebugWriterFrom(ctx)
+				fmt.Fprintln(writer, updateQuery)
+				fmt.Fprintln(writer, values)
+			}
+			if _, err = exec.ExecContext(ctx, updateQuery, values...); err != nil {
+				return errors.Wrap(err, "failed to update foreign table")
+			}
+
+			rel.AccountID = o.ID
+		}
+	}
+
+	if o.R == nil {
+		o.R = &accountR{
+			RestaurantReviews: related,
+		}
+	} else {
+		o.R.RestaurantReviews = append(o.R.RestaurantReviews, related...)
+	}
+
+	for _, rel := range related {
+		if rel.R == nil {
+			rel.R = &restaurantReviewR{
+				Account: o,
+			}
+		} else {
+			rel.R.Account = o
+		}
+	}
+	return nil
 }
 
 // Accounts retrieves all the records using an executor.

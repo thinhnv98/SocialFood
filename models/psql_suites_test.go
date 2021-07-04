@@ -7,4 +7,20 @@ import "testing"
 
 func TestUpsert(t *testing.T) {
 	t.Run("Accounts", testAccountsUpsert)
+
+	t.Run("Destinations", testDestinationsUpsert)
+
+	t.Run("DestinationDetails", testDestinationDetailsUpsert)
+
+	t.Run("DestinationRanks", testDestinationRanksUpsert)
+
+	t.Run("Restaurants", testRestaurantsUpsert)
+
+	t.Run("RestaurantDishes", testRestaurantDishesUpsert)
+
+	t.Run("RestaurantPhotos", testRestaurantPhotosUpsert)
+
+	t.Run("RestaurantRanks", testRestaurantRanksUpsert)
+
+	t.Run("RestaurantReviews", testRestaurantReviewsUpsert)
 }

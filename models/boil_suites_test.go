@@ -13,56 +13,169 @@ import "testing"
 // Separating the tests thusly grants avoidance of Postgres deadlocks.
 func TestParent(t *testing.T) {
 	t.Run("Accounts", testAccounts)
+	t.Run("Destinations", testDestinations)
+	t.Run("DestinationDetails", testDestinationDetails)
+	t.Run("DestinationRanks", testDestinationRanks)
+	t.Run("Restaurants", testRestaurants)
+	t.Run("RestaurantDishes", testRestaurantDishes)
+	t.Run("RestaurantPhotos", testRestaurantPhotos)
+	t.Run("RestaurantRanks", testRestaurantRanks)
+	t.Run("RestaurantReviews", testRestaurantReviews)
 }
 
 func TestDelete(t *testing.T) {
 	t.Run("Accounts", testAccountsDelete)
+	t.Run("Destinations", testDestinationsDelete)
+	t.Run("DestinationDetails", testDestinationDetailsDelete)
+	t.Run("DestinationRanks", testDestinationRanksDelete)
+	t.Run("Restaurants", testRestaurantsDelete)
+	t.Run("RestaurantDishes", testRestaurantDishesDelete)
+	t.Run("RestaurantPhotos", testRestaurantPhotosDelete)
+	t.Run("RestaurantRanks", testRestaurantRanksDelete)
+	t.Run("RestaurantReviews", testRestaurantReviewsDelete)
 }
 
 func TestQueryDeleteAll(t *testing.T) {
 	t.Run("Accounts", testAccountsQueryDeleteAll)
+	t.Run("Destinations", testDestinationsQueryDeleteAll)
+	t.Run("DestinationDetails", testDestinationDetailsQueryDeleteAll)
+	t.Run("DestinationRanks", testDestinationRanksQueryDeleteAll)
+	t.Run("Restaurants", testRestaurantsQueryDeleteAll)
+	t.Run("RestaurantDishes", testRestaurantDishesQueryDeleteAll)
+	t.Run("RestaurantPhotos", testRestaurantPhotosQueryDeleteAll)
+	t.Run("RestaurantRanks", testRestaurantRanksQueryDeleteAll)
+	t.Run("RestaurantReviews", testRestaurantReviewsQueryDeleteAll)
 }
 
 func TestSliceDeleteAll(t *testing.T) {
 	t.Run("Accounts", testAccountsSliceDeleteAll)
+	t.Run("Destinations", testDestinationsSliceDeleteAll)
+	t.Run("DestinationDetails", testDestinationDetailsSliceDeleteAll)
+	t.Run("DestinationRanks", testDestinationRanksSliceDeleteAll)
+	t.Run("Restaurants", testRestaurantsSliceDeleteAll)
+	t.Run("RestaurantDishes", testRestaurantDishesSliceDeleteAll)
+	t.Run("RestaurantPhotos", testRestaurantPhotosSliceDeleteAll)
+	t.Run("RestaurantRanks", testRestaurantRanksSliceDeleteAll)
+	t.Run("RestaurantReviews", testRestaurantReviewsSliceDeleteAll)
 }
 
 func TestExists(t *testing.T) {
 	t.Run("Accounts", testAccountsExists)
+	t.Run("Destinations", testDestinationsExists)
+	t.Run("DestinationDetails", testDestinationDetailsExists)
+	t.Run("DestinationRanks", testDestinationRanksExists)
+	t.Run("Restaurants", testRestaurantsExists)
+	t.Run("RestaurantDishes", testRestaurantDishesExists)
+	t.Run("RestaurantPhotos", testRestaurantPhotosExists)
+	t.Run("RestaurantRanks", testRestaurantRanksExists)
+	t.Run("RestaurantReviews", testRestaurantReviewsExists)
 }
 
 func TestFind(t *testing.T) {
 	t.Run("Accounts", testAccountsFind)
+	t.Run("Destinations", testDestinationsFind)
+	t.Run("DestinationDetails", testDestinationDetailsFind)
+	t.Run("DestinationRanks", testDestinationRanksFind)
+	t.Run("Restaurants", testRestaurantsFind)
+	t.Run("RestaurantDishes", testRestaurantDishesFind)
+	t.Run("RestaurantPhotos", testRestaurantPhotosFind)
+	t.Run("RestaurantRanks", testRestaurantRanksFind)
+	t.Run("RestaurantReviews", testRestaurantReviewsFind)
 }
 
 func TestBind(t *testing.T) {
 	t.Run("Accounts", testAccountsBind)
+	t.Run("Destinations", testDestinationsBind)
+	t.Run("DestinationDetails", testDestinationDetailsBind)
+	t.Run("DestinationRanks", testDestinationRanksBind)
+	t.Run("Restaurants", testRestaurantsBind)
+	t.Run("RestaurantDishes", testRestaurantDishesBind)
+	t.Run("RestaurantPhotos", testRestaurantPhotosBind)
+	t.Run("RestaurantRanks", testRestaurantRanksBind)
+	t.Run("RestaurantReviews", testRestaurantReviewsBind)
 }
 
 func TestOne(t *testing.T) {
 	t.Run("Accounts", testAccountsOne)
+	t.Run("Destinations", testDestinationsOne)
+	t.Run("DestinationDetails", testDestinationDetailsOne)
+	t.Run("DestinationRanks", testDestinationRanksOne)
+	t.Run("Restaurants", testRestaurantsOne)
+	t.Run("RestaurantDishes", testRestaurantDishesOne)
+	t.Run("RestaurantPhotos", testRestaurantPhotosOne)
+	t.Run("RestaurantRanks", testRestaurantRanksOne)
+	t.Run("RestaurantReviews", testRestaurantReviewsOne)
 }
 
 func TestAll(t *testing.T) {
 	t.Run("Accounts", testAccountsAll)
+	t.Run("Destinations", testDestinationsAll)
+	t.Run("DestinationDetails", testDestinationDetailsAll)
+	t.Run("DestinationRanks", testDestinationRanksAll)
+	t.Run("Restaurants", testRestaurantsAll)
+	t.Run("RestaurantDishes", testRestaurantDishesAll)
+	t.Run("RestaurantPhotos", testRestaurantPhotosAll)
+	t.Run("RestaurantRanks", testRestaurantRanksAll)
+	t.Run("RestaurantReviews", testRestaurantReviewsAll)
 }
 
 func TestCount(t *testing.T) {
 	t.Run("Accounts", testAccountsCount)
+	t.Run("Destinations", testDestinationsCount)
+	t.Run("DestinationDetails", testDestinationDetailsCount)
+	t.Run("DestinationRanks", testDestinationRanksCount)
+	t.Run("Restaurants", testRestaurantsCount)
+	t.Run("RestaurantDishes", testRestaurantDishesCount)
+	t.Run("RestaurantPhotos", testRestaurantPhotosCount)
+	t.Run("RestaurantRanks", testRestaurantRanksCount)
+	t.Run("RestaurantReviews", testRestaurantReviewsCount)
 }
 
 func TestHooks(t *testing.T) {
 	t.Run("Accounts", testAccountsHooks)
+	t.Run("Destinations", testDestinationsHooks)
+	t.Run("DestinationDetails", testDestinationDetailsHooks)
+	t.Run("DestinationRanks", testDestinationRanksHooks)
+	t.Run("Restaurants", testRestaurantsHooks)
+	t.Run("RestaurantDishes", testRestaurantDishesHooks)
+	t.Run("RestaurantPhotos", testRestaurantPhotosHooks)
+	t.Run("RestaurantRanks", testRestaurantRanksHooks)
+	t.Run("RestaurantReviews", testRestaurantReviewsHooks)
 }
 
 func TestInsert(t *testing.T) {
 	t.Run("Accounts", testAccountsInsert)
 	t.Run("Accounts", testAccountsInsertWhitelist)
+	t.Run("Destinations", testDestinationsInsert)
+	t.Run("Destinations", testDestinationsInsertWhitelist)
+	t.Run("DestinationDetails", testDestinationDetailsInsert)
+	t.Run("DestinationDetails", testDestinationDetailsInsertWhitelist)
+	t.Run("DestinationRanks", testDestinationRanksInsert)
+	t.Run("DestinationRanks", testDestinationRanksInsertWhitelist)
+	t.Run("Restaurants", testRestaurantsInsert)
+	t.Run("Restaurants", testRestaurantsInsertWhitelist)
+	t.Run("RestaurantDishes", testRestaurantDishesInsert)
+	t.Run("RestaurantDishes", testRestaurantDishesInsertWhitelist)
+	t.Run("RestaurantPhotos", testRestaurantPhotosInsert)
+	t.Run("RestaurantPhotos", testRestaurantPhotosInsertWhitelist)
+	t.Run("RestaurantRanks", testRestaurantRanksInsert)
+	t.Run("RestaurantRanks", testRestaurantRanksInsertWhitelist)
+	t.Run("RestaurantReviews", testRestaurantReviewsInsert)
+	t.Run("RestaurantReviews", testRestaurantReviewsInsertWhitelist)
 }
 
 // TestToOne tests cannot be run in parallel
 // or deadlocks can occur.
-func TestToOne(t *testing.T) {}
+func TestToOne(t *testing.T) {
+	t.Run("DestinationDetailToDestinationUsingDestination", testDestinationDetailToOneDestinationUsingDestination)
+	t.Run("DestinationRankToDestinationUsingDestination", testDestinationRankToOneDestinationUsingDestination)
+	t.Run("RestaurantToAccountUsingCreatedByAccount", testRestaurantToOneAccountUsingCreatedByAccount)
+	t.Run("RestaurantDishToRestaurantUsingRestaurant", testRestaurantDishToOneRestaurantUsingRestaurant)
+	t.Run("RestaurantPhotoToRestaurantUsingRestaurant", testRestaurantPhotoToOneRestaurantUsingRestaurant)
+	t.Run("RestaurantRankToRestaurantUsingRestaurant", testRestaurantRankToOneRestaurantUsingRestaurant)
+	t.Run("RestaurantReviewToAccountUsingAccount", testRestaurantReviewToOneAccountUsingAccount)
+	t.Run("RestaurantReviewToRestaurantUsingRestaurant", testRestaurantReviewToOneRestaurantUsingRestaurant)
+}
 
 // TestOneToOne tests cannot be run in parallel
 // or deadlocks can occur.
@@ -70,15 +183,36 @@ func TestOneToOne(t *testing.T) {}
 
 // TestToMany tests cannot be run in parallel
 // or deadlocks can occur.
-func TestToMany(t *testing.T) {}
+func TestToMany(t *testing.T) {
+	t.Run("AccountToCreatedByRestaurants", testAccountToManyCreatedByRestaurants)
+	t.Run("AccountToRestaurantReviews", testAccountToManyRestaurantReviews)
+	t.Run("DestinationToDestinationDetails", testDestinationToManyDestinationDetails)
+	t.Run("DestinationToDestinationRanks", testDestinationToManyDestinationRanks)
+	t.Run("RestaurantToRestaurantDishes", testRestaurantToManyRestaurantDishes)
+	t.Run("RestaurantToRestaurantPhotos", testRestaurantToManyRestaurantPhotos)
+	t.Run("RestaurantToRestaurantRanks", testRestaurantToManyRestaurantRanks)
+	t.Run("RestaurantToRestaurantReviews", testRestaurantToManyRestaurantReviews)
+}
 
 // TestToOneSet tests cannot be run in parallel
 // or deadlocks can occur.
-func TestToOneSet(t *testing.T) {}
+func TestToOneSet(t *testing.T) {
+	t.Run("DestinationDetailToDestinationUsingDestinationDetails", testDestinationDetailToOneSetOpDestinationUsingDestination)
+	t.Run("DestinationRankToDestinationUsingDestinationRanks", testDestinationRankToOneSetOpDestinationUsingDestination)
+	t.Run("RestaurantToAccountUsingCreatedByRestaurants", testRestaurantToOneSetOpAccountUsingCreatedByAccount)
+	t.Run("RestaurantDishToRestaurantUsingRestaurantDishes", testRestaurantDishToOneSetOpRestaurantUsingRestaurant)
+	t.Run("RestaurantPhotoToRestaurantUsingRestaurantPhotos", testRestaurantPhotoToOneSetOpRestaurantUsingRestaurant)
+	t.Run("RestaurantRankToRestaurantUsingRestaurantRanks", testRestaurantRankToOneSetOpRestaurantUsingRestaurant)
+	t.Run("RestaurantReviewToAccountUsingRestaurantReviews", testRestaurantReviewToOneSetOpAccountUsingAccount)
+	t.Run("RestaurantReviewToRestaurantUsingRestaurantReviews", testRestaurantReviewToOneSetOpRestaurantUsingRestaurant)
+}
 
 // TestToOneRemove tests cannot be run in parallel
 // or deadlocks can occur.
-func TestToOneRemove(t *testing.T) {}
+func TestToOneRemove(t *testing.T) {
+	t.Run("DestinationDetailToDestinationUsingDestinationDetails", testDestinationDetailToOneRemoveOpDestinationUsingDestination)
+	t.Run("RestaurantToAccountUsingCreatedByRestaurants", testRestaurantToOneRemoveOpAccountUsingCreatedByAccount)
+}
 
 // TestOneToOneSet tests cannot be run in parallel
 // or deadlocks can occur.
@@ -90,32 +224,87 @@ func TestOneToOneRemove(t *testing.T) {}
 
 // TestToManyAdd tests cannot be run in parallel
 // or deadlocks can occur.
-func TestToManyAdd(t *testing.T) {}
+func TestToManyAdd(t *testing.T) {
+	t.Run("AccountToCreatedByRestaurants", testAccountToManyAddOpCreatedByRestaurants)
+	t.Run("AccountToRestaurantReviews", testAccountToManyAddOpRestaurantReviews)
+	t.Run("DestinationToDestinationDetails", testDestinationToManyAddOpDestinationDetails)
+	t.Run("DestinationToDestinationRanks", testDestinationToManyAddOpDestinationRanks)
+	t.Run("RestaurantToRestaurantDishes", testRestaurantToManyAddOpRestaurantDishes)
+	t.Run("RestaurantToRestaurantPhotos", testRestaurantToManyAddOpRestaurantPhotos)
+	t.Run("RestaurantToRestaurantRanks", testRestaurantToManyAddOpRestaurantRanks)
+	t.Run("RestaurantToRestaurantReviews", testRestaurantToManyAddOpRestaurantReviews)
+}
 
 // TestToManySet tests cannot be run in parallel
 // or deadlocks can occur.
-func TestToManySet(t *testing.T) {}
+func TestToManySet(t *testing.T) {
+	t.Run("AccountToCreatedByRestaurants", testAccountToManySetOpCreatedByRestaurants)
+	t.Run("DestinationToDestinationDetails", testDestinationToManySetOpDestinationDetails)
+}
 
 // TestToManyRemove tests cannot be run in parallel
 // or deadlocks can occur.
-func TestToManyRemove(t *testing.T) {}
+func TestToManyRemove(t *testing.T) {
+	t.Run("AccountToCreatedByRestaurants", testAccountToManyRemoveOpCreatedByRestaurants)
+	t.Run("DestinationToDestinationDetails", testDestinationToManyRemoveOpDestinationDetails)
+}
 
 func TestReload(t *testing.T) {
 	t.Run("Accounts", testAccountsReload)
+	t.Run("Destinations", testDestinationsReload)
+	t.Run("DestinationDetails", testDestinationDetailsReload)
+	t.Run("DestinationRanks", testDestinationRanksReload)
+	t.Run("Restaurants", testRestaurantsReload)
+	t.Run("RestaurantDishes", testRestaurantDishesReload)
+	t.Run("RestaurantPhotos", testRestaurantPhotosReload)
+	t.Run("RestaurantRanks", testRestaurantRanksReload)
+	t.Run("RestaurantReviews", testRestaurantReviewsReload)
 }
 
 func TestReloadAll(t *testing.T) {
 	t.Run("Accounts", testAccountsReloadAll)
+	t.Run("Destinations", testDestinationsReloadAll)
+	t.Run("DestinationDetails", testDestinationDetailsReloadAll)
+	t.Run("DestinationRanks", testDestinationRanksReloadAll)
+	t.Run("Restaurants", testRestaurantsReloadAll)
+	t.Run("RestaurantDishes", testRestaurantDishesReloadAll)
+	t.Run("RestaurantPhotos", testRestaurantPhotosReloadAll)
+	t.Run("RestaurantRanks", testRestaurantRanksReloadAll)
+	t.Run("RestaurantReviews", testRestaurantReviewsReloadAll)
 }
 
 func TestSelect(t *testing.T) {
 	t.Run("Accounts", testAccountsSelect)
+	t.Run("Destinations", testDestinationsSelect)
+	t.Run("DestinationDetails", testDestinationDetailsSelect)
+	t.Run("DestinationRanks", testDestinationRanksSelect)
+	t.Run("Restaurants", testRestaurantsSelect)
+	t.Run("RestaurantDishes", testRestaurantDishesSelect)
+	t.Run("RestaurantPhotos", testRestaurantPhotosSelect)
+	t.Run("RestaurantRanks", testRestaurantRanksSelect)
+	t.Run("RestaurantReviews", testRestaurantReviewsSelect)
 }
 
 func TestUpdate(t *testing.T) {
 	t.Run("Accounts", testAccountsUpdate)
+	t.Run("Destinations", testDestinationsUpdate)
+	t.Run("DestinationDetails", testDestinationDetailsUpdate)
+	t.Run("DestinationRanks", testDestinationRanksUpdate)
+	t.Run("Restaurants", testRestaurantsUpdate)
+	t.Run("RestaurantDishes", testRestaurantDishesUpdate)
+	t.Run("RestaurantPhotos", testRestaurantPhotosUpdate)
+	t.Run("RestaurantRanks", testRestaurantRanksUpdate)
+	t.Run("RestaurantReviews", testRestaurantReviewsUpdate)
 }
 
 func TestSliceUpdateAll(t *testing.T) {
 	t.Run("Accounts", testAccountsSliceUpdateAll)
+	t.Run("Destinations", testDestinationsSliceUpdateAll)
+	t.Run("DestinationDetails", testDestinationDetailsSliceUpdateAll)
+	t.Run("DestinationRanks", testDestinationRanksSliceUpdateAll)
+	t.Run("Restaurants", testRestaurantsSliceUpdateAll)
+	t.Run("RestaurantDishes", testRestaurantDishesSliceUpdateAll)
+	t.Run("RestaurantPhotos", testRestaurantPhotosSliceUpdateAll)
+	t.Run("RestaurantRanks", testRestaurantRanksSliceUpdateAll)
+	t.Run("RestaurantReviews", testRestaurantReviewsSliceUpdateAll)
 }

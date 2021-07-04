@@ -21,7 +21,7 @@ func (_self UserController) Login(ctx *gin.Context) {
 		return
 	}
 
-	isSuccess, err := _self.IUserService.Login(userRequest)
+	isSuccess, userID, err := _self.IUserService.Login(userRequest)
 	if err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{
 			"error": err.Error(),
@@ -31,6 +31,7 @@ func (_self UserController) Login(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, gin.H{
 		"IsSuccess": isSuccess,
+		"ID":        userID,
 	})
 	return
 }
@@ -48,14 +49,16 @@ func (_self UserController) Register(ctx *gin.Context) {
 	isExisted, _ := _self.IUserService.IsExisted(userRequest)
 	if isExisted {
 		ctx.JSON(http.StatusOK, gin.H{
+			"ID":        0,
 			"IsExisted": true,
 			"IsSuccess": false,
 		})
 		return
 	}
 
-	isSuccess, _ := _self.IUserService.Register(userRequest)
+	ID, isSuccess, _ := _self.IUserService.Register(userRequest)
 	ctx.JSON(http.StatusOK, gin.H{
+		"ID":        ID,
 		"IsExisted": false,
 		"IsSuccess": isSuccess,
 	})

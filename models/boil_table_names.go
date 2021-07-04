@@ -4,7 +4,23 @@
 package models
 
 var TableNames = struct {
-	Account string
+	Account           string
+	Destination       string
+	DestinationDetail string
+	DestinationRank   string
+	Restaurant        string
+	RestaurantDishes  string
+	RestaurantPhotos  string
+	RestaurantRank    string
+	RestaurantReviews string
 }{
-	Account: "account",
+	Account:           "account",
+	Destination:       "destination",
+	DestinationDetail: "destination_detail",
+	DestinationRank:   "destination_rank",
+	Restaurant:        "restaurant",
+	RestaurantDishes:  "restaurant_dishes",
+	RestaurantPhotos:  "restaurant_photos",
+	RestaurantRank:    "restaurant_rank",
+	RestaurantReviews: "restaurant_reviews",
 }

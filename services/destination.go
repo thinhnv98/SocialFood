@@ -6,13 +6,16 @@ import (
 	"context"
 	"database/sql"
 	"encoding/base64"
+	"fmt"
 	"math"
 	"os"
+	"time"
+
+	"github.com/cloudinary/cloudinary-go/api/admin"
 
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"
 
 	"github.com/cloudinary/cloudinary-go"
-	"github.com/cloudinary/cloudinary-go/api/admin"
 	"github.com/cloudinary/cloudinary-go/api/uploader"
 	"github.com/volatiletech/null/v8"
 
@@ -40,21 +43,20 @@ func (_self DestinationService) GetDestination() (models.DestinationSlice, error
 }
 
 func (_self DestinationService) CreateDestination(destinationFully custom_models.DestinationFully) error {
+	imageName := fmt.Sprintf("image%v%v", time.Now().Minute(), time.Now().Second())
 	//Upload image
 	dec, _ := base64.StdEncoding.DecodeString(destinationFully.ImageData)
-	f, _ := os.Create("assets/imageName.jpeg")
+	imagePath := fmt.Sprintf("assets/%v.jpeg", imageName)
+	f, _ := os.Create(imagePath)
 	f.Write(dec)
 	f.Sync()
 	f.Close()
 
 	ctx := context.Background()
 	cld, _ := cloudinary.NewFromParams("vietname", "254449548734168", "0xa-kDE5e55ecB2xXU9ypVLsDxk")
-	_, err := cld.Upload.Upload(ctx, "assets/imageName.jpeg", uploader.UploadParams{PublicID: "newID"})
+	_, err := cld.Upload.Upload(ctx, imagePath, uploader.UploadParams{PublicID: imageName})
 
-	resp, err := cld.Admin.Asset(ctx, admin.AssetParams{PublicID: "newID"})
-	if err != nil {
-		return err
-	}
+	resp, err := cld.Admin.Asset(ctx, admin.AssetParams{PublicID: imageName})
 
 	destinationFully.ImageName = resp.SecureURL
 	destinationFully.ImageData = ""

@@ -8,7 +8,7 @@ build:
 	docker compose build
 
 run:
-	docker compose up
+	go run main.go
 
 down:
 	docker compose down
@@ -21,3 +21,6 @@ build-db:
 
 build-server:
 	docker compose build server
+
+up:
+	docker compose up

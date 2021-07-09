@@ -34,7 +34,11 @@ type RestaurantService struct {
 
 func (_self RestaurantService) GetRestaurants() (models.RestaurantSlice, error) {
 	ctx := context.Background()
-	return models.Restaurants().All(ctx, _self.Db)
+	return models.Restaurants(
+		qm.InnerJoin(models.TableNames.RestaurantRank+" dr ON "+models.TableNames.Restaurant+"."+models.RestaurantColumns.ID+" = dr."+models.RestaurantRankColumns.RestaurantID),
+		qm.OrderBy("dr."+models.RestaurantRankColumns.TotalOfVote+" DESC"),
+		qm.OrderBy("dr."+models.RestaurantRankColumns.Vote+" DESC"),
+	).All(ctx, _self.Db)
 }
 
 func (_self RestaurantService) GetRestaurantDetailByID(id int) (custom_models.RestaurantFully, error) {
@@ -114,12 +118,9 @@ func (_self RestaurantService) CreateRestaurant(restaurantFully custom_models.Ne
 
 	ctx := context.Background()
 	cld, _ := cloudinary.NewFromParams("vietname", "254449548734168", "0xa-kDE5e55ecB2xXU9ypVLsDxk")
-	_, err := cld.Upload.Upload(ctx, "assets/imageName.jpeg", uploader.UploadParams{PublicID: "newID"})
+	_, err := cld.Upload.Upload(ctx, "assets/imageName.jpeg", uploader.UploadParams{PublicID: "newRestaurant"})
 
-	resp, err := cld.Admin.Asset(ctx, admin.AssetParams{PublicID: "newID"})
-	if err != nil {
-		return err
-	}
+	resp, err := cld.Admin.Asset(ctx, admin.AssetParams{PublicID: "newRestaurant"})
 
 	restaurantFully.ImageName = resp.SecureURL
 	restaurantFully.ImageData = ""

@@ -34,7 +34,7 @@ values ('Paris', 'France',
         'https://res.cloudinary.com/vietname/image/upload/v1625311650/japan.jpg', '', 35.67988, 139.7695),
        ('New York', 'US',
         'New York City has been described as the cultural, financial, and media capital of the world, significantly influencing commerce, entertainment, research, technology, education, politics, tourism, art, fashion, and sports.',
-        'https://res.cloudinary.com/vietname/image/upload/v1625311678/newyork.jpg', '', 40.71592, -74.0055);
+        'https://res.cloudinary.com/vietname/image/upload/v1625433115/newyork.jpg', '', 40.71592, -74.0055);
 
 create table if not exists destination_detail
 (
